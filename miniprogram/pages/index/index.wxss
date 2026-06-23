@@ -1,0 +1,372 @@
+/* === 每日卡片 · 高定视觉 === */
+/* Soft Structuralism — silver grays + warm undertones + architectural whitespace */
+
+/* ---------- 页面容器 ---------- */
+.page {
+  min-height: 100vh;
+  padding: 48rpx 32rpx 80rpx;
+  box-sizing: border-box;
+  opacity: 0;
+  transform: translateY(32rpx);
+  transition: opacity 0.7s cubic-bezier(0.32, 0.72, 0, 1),
+              transform 0.7s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.page.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- 加载 / 空状态 ---------- */
+.loading {
+  display: flex;
+  justify-content: center;
+  padding-top: 360rpx;
+  color: #B8A898;
+  font-size: 28rpx;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 320rpx;
+}
+.empty-title {
+  font-size: 38rpx;
+  font-weight: 300;
+  color: #2D2420;
+  letter-spacing: 4rpx;
+  margin-bottom: 16rpx;
+}
+.empty-desc {
+  font-size: 26rpx;
+  color: #A89888;
+  margin-bottom: 56rpx;
+}
+
+/* Button-in-Button CTA */
+.btn {
+  background: #2D2420;
+  color: #F7F4EE;
+  font-size: 28rpx;
+  padding: 20rpx 64rpx;
+  border-radius: 100rpx;
+  border: none;
+  letter-spacing: 2rpx;
+  font-weight: 400;
+  transition: all 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.btn:active {
+  transform: scale(0.97);
+  background: #1A1410;
+}
+
+/* ---------- 主卡片：Double-Bezel ---------- */
+.card-outer {
+  border-radius: 32rpx;
+  background: rgba(45, 36, 32, 0.04);
+  padding: 2rpx;
+}
+.card-inner {
+  border-radius: 30rpx;
+  background: #FCFAF7;
+  padding: 48rpx 36rpx 40rpx;
+  box-shadow: 0 2rpx 32rpx rgba(45, 36, 32, 0.04);
+}
+
+/* ---------- Eyebrow Tag ---------- */
+.eyebrow {
+  display: inline-block;
+  font-size: 18rpx;
+  letter-spacing: 8rpx;
+  text-transform: uppercase;
+  color: #A89888;
+  margin-bottom: 8rpx;
+}
+
+/* ---------- 日期 ---------- */
+.date {
+  font-size: 40rpx;
+  font-weight: 300;
+  color: #2D2420;
+  letter-spacing: 2rpx;
+  display: block;
+  margin-bottom: 40rpx;
+}
+
+/* ---------- 天气 — 按类型渐变配色 ---------- */
+.weather-block {
+  display: flex;
+  align-items: center;
+  gap: 28rpx;
+  margin-bottom: 48rpx;
+  padding: 36rpx 32rpx;
+  border-radius: 24rpx;
+  transition: background 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* 晴 — 暖黄渐变 */
+.wx-sunny {
+  background: linear-gradient(135deg, #FFF7E0 0%, #FFE8B0 50%, #FFD98A 100%);
+}
+/* 多云 — 蓝白渐变 */
+.wx-cloudy {
+  background: linear-gradient(135deg, #EEF2FA 0%, #DEE6F5 50%, #CFDEF0 100%);
+}
+/* 阴 — 灰蓝 */
+.wx-overcast {
+  background: linear-gradient(135deg, #E8ECF2 0%, #D5DCE6 50%, #C4CDD9 100%);
+}
+/* 雾 — 乳白柔光 */
+.wx-fog {
+  background: linear-gradient(135deg, #F2F0ED 0%, #E8E5E0 50%, #DEDAD3 100%);
+}
+/* 雨 — 冷蓝 */
+.wx-rain {
+  background: linear-gradient(135deg, #E2ECF8 0%, #CDDDF2 50%, #B8CFEC 100%);
+}
+/* 暴雨/雷暴 — 深紫蓝 */
+.wx-storm,
+.wx-thunder {
+  background: linear-gradient(135deg, #E4E0F0 0%, #D0C8E8 50%, #BFB5DF 100%);
+}
+/* 阵雨 — 晴雨交替感 */
+.wx-shower {
+  background: linear-gradient(135deg, #EAF0F8 0%, #D8E4F2 50%, #F5F0E0 100%);
+}
+/* 雪 — 冰蓝 */
+.wx-snow {
+  background: linear-gradient(135deg, #EDF2FA 0%, #DEE8F5 50%, #D0DEF0 100%);
+}
+
+.weather-icon-display {
+  font-size: 100rpx;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.weather-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+.weather-temp {
+  font-size: 48rpx;
+  font-weight: 200;
+  color: #2D2420;
+  letter-spacing: 1rpx;
+  line-height: 1;
+}
+.weather-desc {
+  font-size: 26rpx;
+  color: #8B7D72;
+  font-weight: 300;
+}
+
+/* 24h 横滑 — 胶囊容器 */
+.hourly-scroll {
+  width: 100%;
+  white-space: nowrap;
+  margin-top: 24rpx;
+}
+.hourly-list {
+  display: inline-flex;
+  gap: 20rpx;
+}
+.hourly-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 72rpx;
+  padding: 16rpx 12rpx;
+  border-radius: 20rpx;
+  background: rgba(45, 36, 32, 0.03);
+}
+.hour-label {
+  font-size: 20rpx;
+  color: #B8A898;
+  margin-bottom: 6rpx;
+  letter-spacing: 1rpx;
+}
+.hour-emoji {
+  font-size: 34rpx;
+  margin-bottom: 4rpx;
+}
+.hour-temp {
+  font-size: 22rpx;
+  color: #5A4A3A;
+  font-weight: 400;
+}
+
+/* ---------- 7日预报 — 横滑胶囊 ---------- */
+.week-block {
+  margin-bottom: 48rpx;
+}
+.week-title {
+  font-size: 20rpx;
+  color: #B8A898;
+  letter-spacing: 6rpx;
+  display: block;
+  margin-bottom: 20rpx;
+}
+.week-scroll {
+  width: 100%;
+  white-space: nowrap;
+}
+.week-list {
+  display: inline-flex;
+  gap: 14rpx;
+}
+.week-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx 24rpx;
+  border-radius: 20rpx;
+  background: #F4F0E9;
+  min-width: 108rpx;
+  transition: all 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.week-item:active {
+  transform: scale(0.96);
+}
+.week-today {
+  background: rgba(45, 36, 32, 0.06);
+  position: relative;
+}
+.week-today::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 24rpx;
+  right: 24rpx;
+  height: 2rpx;
+  background: #2D2420;
+  border-radius: 2rpx;
+}
+.week-label {
+  font-size: 22rpx;
+  color: #5A4A3A;
+  font-weight: 500;
+  margin-bottom: 4rpx;
+}
+.week-date {
+  font-size: 18rpx;
+  color: #B8A898;
+  margin-bottom: 10rpx;
+}
+.week-emoji {
+  font-size: 32rpx;
+  margin-bottom: 6rpx;
+}
+.week-temp {
+  font-size: 20rpx;
+  color: #8B7D72;
+  margin-bottom: 6rpx;
+}
+.week-pillar {
+  font-size: 20rpx;
+  color: #B8A898;
+  margin-bottom: 10rpx;
+}
+.week-tag {
+  font-size: 18rpx;
+  color: #8B7D72;
+  padding: 4rpx 16rpx;
+  background: #FCFAF7;
+  border-radius: 100rpx;
+  letter-spacing: 2rpx;
+}
+.tag-active {
+  background: #2D2420;
+  color: #F7F4EE;
+}
+
+/* ---------- 情绪正文 — 核心区 ---------- */
+.card-body {
+  margin-bottom: 48rpx;
+}
+.emotion {
+  font-size: 32rpx;
+  line-height: 2.0;
+  color: #2D2420;
+  font-weight: 300;
+  letter-spacing: 1rpx;
+}
+
+/* ---------- 时辰 / 穿衣 / 推荐 ---------- */
+.card-section {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 20rpx;
+}
+.section-label {
+  font-size: 22rpx;
+  color: #B8A898;
+  letter-spacing: 4rpx;
+  width: 120rpx;
+  flex-shrink: 0;
+}
+.section-value {
+  font-size: 28rpx;
+  color: #5A4A3A;
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+/* ---------- 分割 — 极细色线 ---------- */
+.divider {
+  height: 1rpx;
+  background: rgba(45, 36, 32, 0.08);
+  margin: 40rpx 0;
+}
+
+/* ---------- 短句收尾 — 居中呼吸感 ---------- */
+.card-quote {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8rpx 0;
+}
+.classical {
+  font-size: 32rpx;
+  color: #2D2420;
+  font-weight: 400;
+  letter-spacing: 4rpx;
+  margin-bottom: 16rpx;
+}
+.modern {
+  font-size: 24rpx;
+  color: #A89888;
+  font-weight: 300;
+  margin-bottom: 24rpx;
+  line-height: 1.7;
+}
+.tie {
+  font-size: 22rpx;
+  color: #C4B5A1;
+  font-weight: 300;
+  letter-spacing: 1rpx;
+}
+
+/* ---------- 底部操作 ---------- */
+.card-footer {
+  margin-top: 40rpx;
+  padding-top: 32rpx;
+  border-top: 1rpx solid rgba(45, 36, 32, 0.06);
+  text-align: center;
+}
+.setup-link {
+  font-size: 24rpx;
+  color: #8B7D72;
+  padding: 16rpx 48rpx;
+  border: 1rpx solid rgba(45, 36, 32, 0.12);
+  border-radius: 100rpx;
+  display: inline-block;
+  letter-spacing: 2rpx;
+  transition: all 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.setup-link:active {
+  background: rgba(45, 36, 32, 0.04);
+  border-color: rgba(45, 36, 32, 0.24);
+}

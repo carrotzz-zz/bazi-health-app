@@ -1,0 +1,105 @@
+<view class="page {{pageIn ? 'in' : ''}}">
+  <!-- 加载中 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 未设置 -->
+  <view class="empty" wx:elif="{{!card}}">
+    <text class="empty-title">还没有设置</text>
+    <text class="empty-desc">填写出生时间才能看到每日卡片</text>
+    <button class="btn" bindtap="goSetup">去设置</button>
+  </view>
+
+  <!-- 卡片：Double-Bezel 结构 -->
+  <view class="card-outer" wx:else>
+    <view class="card-inner">
+
+      <!-- Eyebrow + 日期 -->
+      <text class="eyebrow">每日情绪</text>
+      <text class="date">{{card.dateStr}}</text>
+
+      <!-- 天气 — 非对称区块 -->
+      <view class="weather-block wx-{{card.weather.daily.wxClass}}">
+        <text class="weather-icon-display">{{card.weather.daily.emoji}}</text>
+        <view class="weather-stats">
+          <text class="weather-temp">{{card.weather.daily.minTemp}}° ~ {{card.weather.daily.maxTemp}}°</text>
+          <text class="weather-desc">{{card.weather.daily.weather}}</text>
+        </view>
+      </view>
+
+      <!-- 24h 横滑 -->
+      <scroll-view class="hourly-scroll" scroll-x enable-flex>
+        <view class="hourly-list">
+          <view class="hourly-item" wx:for="{{card.weather.hourly}}" wx:key="hour">
+            <text class="hour-label">{{item.hour}}:00</text>
+            <text class="hour-emoji">{{item.emoji}}</text>
+            <text class="hour-temp">{{item.temp}}°</text>
+          </view>
+        </view>
+      </scroll-view>
+
+      <!-- 7日情绪预报 -->
+      <view class="week-block">
+        <text class="week-title">七日</text>
+        <scroll-view class="week-scroll" scroll-x enable-flex>
+          <view class="week-list">
+            <view
+              class="week-item {{item.isActive ? 'week-today' : ''}}"
+              wx:for="{{weekForecast}}"
+              wx:key="index"
+              bindtap="onDayTap"
+              data-index="{{item.index}}"
+            >
+              <text class="week-label">{{item.label}}</text>
+              <text class="week-date">{{item.dateCompact}}</text>
+              <text class="week-emoji">{{item.emoji}}</text>
+              <text class="week-temp">{{item.temp}}</text>
+              <text class="week-pillar">{{item.dayPillar}}</text>
+              <text class="week-tag {{item.isActive ? 'tag-active' : ''}}">{{item.moodTag}}</text>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+
+      <!-- 情绪正文 -->
+      <view class="card-body">
+        <text class="emotion">{{card.emotionDesc}}</text>
+      </view>
+
+      <!-- 时辰 -->
+      <view class="card-section">
+        <text class="section-label">时辰</text>
+        <text class="section-value">{{card.shichenTip}}</text>
+      </view>
+
+      <!-- 穿衣 -->
+      <view class="card-section">
+        <text class="section-label">穿衣</text>
+        <text class="section-value">{{card.clothing}}</text>
+      </view>
+
+      <!-- 推荐 -->
+      <view class="card-section">
+        <text class="section-label">推荐</text>
+        <text class="section-value">{{card.recommendation}}</text>
+      </view>
+
+      <!-- 分割线 -->
+      <view class="divider"></view>
+
+      <!-- 短句收尾 -->
+      <view class="card-quote">
+        <text class="classical">{{card.quote.classical}}</text>
+        <text class="modern">{{card.quote.modern}}</text>
+        <text class="tie">今天也是，{{card.quote.tieToToday}}</text>
+      </view>
+
+      <!-- 底部操作 -->
+      <view class="card-footer">
+        <text class="setup-link" bindtap="goSetup">调整设置或体质问卷</text>
+      </view>
+
+    </view>
+  </view>
+</view>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>每日情绪卡片</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+  <div id="toast" class="toast"></div>
+
+  <!-- ====== 首页 ====== -->
+  <div id="cardPage" class="page hide">
+    <!-- 加载中 -->
+    <div class="loading" id="loadingView">加载中...</div>
+
+    <!-- 未设置 -->
+    <div class="empty" id="emptyState" style="display:none">
+      <text class="empty-title">还没有设置</text>
+      <text class="empty-desc">填写出生时间才能看到每日卡片</text>
+      <button class="btn" onclick="showSetup()">去设置</button>
+    </div>
+
+    <!-- 卡片：Double-Bezel -->
+    <div class="card-outer" id="cardView" style="display:none">
+      <div class="card-inner">
+
+        <text class="eyebrow">每日情绪</text>
+        <text class="date" id="dateStr"></text>
+
+        <div class="weather-block" id="weatherBlock">
+          <text class="weather-icon-display" id="weatherIcon"></text>
+          <div class="weather-stats">
+            <text class="weather-temp" id="weatherTemp"></text>
+            <text class="weather-desc" id="weatherDesc"></text>
+          </div>
+        </div>
+
+        <!-- 24h -->
+        <div class="hourly-scroll"><div class="hourly-list" id="hourlyList"></div></div>
+
+        <!-- 七日 -->
+        <div class="week-block">
+          <text class="week-title">七日</text>
+          <div class="week-scroll"><div class="week-list" id="weekList"></div></div>
+        </div>
+
+        <!-- 情绪正文 -->
+        <div class="card-body"><text class="emotion" id="emotionDesc"></text></div>
+
+        <!-- 时辰 -->
+        <div class="card-section">
+          <text class="section-label">时辰</text>
+          <text class="section-value" id="shichenTip"></text>
+        </div>
+
+        <!-- 穿衣 -->
+        <div class="card-section">
+          <text class="section-label">穿衣</text>
+          <text class="section-value" id="clothing"></text>
+        </div>
+
+        <!-- 推荐 -->
+        <div class="card-section">
+          <text class="section-label">推荐</text>
+          <text class="section-value" id="recommendation"></text>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="card-quote">
+          <text class="classical" id="quoteClassical"></text>
+          <text class="modern" id="quoteModern"></text>
+          <text class="tie" id="quoteTie"></text>
+        </div>
+
+        <div class="card-footer">
+          <text class="setup-link" onclick="showSetup()">调整设置或体质问卷</text>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== 设置页 ====== -->
+  <div id="setupPage" class="page hide">
+    <div class="setup-section">
+      <text class="setup-title">出生信息</text>
+
+      <div class="form-row">
+        <text class="form-label">出生日期</text>
+        <input class="form-input" type="date" id="birthDate" value="1997-03-19">
+      </div>
+
+      <div class="form-row">
+        <text class="form-label">出生时间</text>
+        <input class="form-input" type="time" id="birthTime" value="18:30">
+      </div>
+
+      <div class="form-row">
+        <text class="form-label">性别</text>
+        <div class="gender-row">
+          <div class="gender-btn" id="genderM" onclick="setGender('男')">男</div>
+          <div class="gender-btn" id="genderF" onclick="setGender('女')">女</div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <text class="form-label">城市位置</text>
+        <input class="location-input" type="text" id="cityInput" placeholder="请选择城市" list="cityList" onchange="onCityChange()" onblur="onCityChange()" autocomplete="off">
+      </div>
+      <text class="location-status" id="locationStatus"></text>
+      <datalist id="cityList">
+        <option value="北京"><option value="天津"><option value="上海"><option value="重庆">
+        <option value="河北省 石家庄"><option value="河北省 唐山"><option value="河北省 秦皇岛"><option value="河北省 邯郸"><option value="河北省 邢台"><option value="河北省 保定"><option value="河北省 张家口"><option value="河北省 承德"><option value="河北省 沧州"><option value="河北省 廊坊"><option value="河北省 衡水">
+        <option value="山西省 太原"><option value="山西省 大同"><option value="山西省 阳泉"><option value="山西省 长治"><option value="山西省 晋城"><option value="山西省 朔州"><option value="山西省 晋中"><option value="山西省 运城"><option value="山西省 忻州"><option value="山西省 临汾"><option value="山西省 吕梁">
+        <option value="内蒙古 呼和浩特"><option value="内蒙古 包头"><option value="内蒙古 乌海"><option value="内蒙古 赤峰"><option value="内蒙古 通辽"><option value="内蒙古 鄂尔多斯"><option value="内蒙古 呼伦贝尔"><option value="内蒙古 巴彦淖尔"><option value="内蒙古 乌兰察布">
+        <option value="辽宁省 沈阳"><option value="辽宁省 大连"><option value="辽宁省 鞍山"><option value="辽宁省 抚顺"><option value="辽宁省 本溪"><option value="辽宁省 丹东"><option value="辽宁省 锦州"><option value="辽宁省 营口"><option value="辽宁省 阜新"><option value="辽宁省 辽阳"><option value="辽宁省 盘锦"><option value="辽宁省 铁岭"><option value="辽宁省 朝阳"><option value="辽宁省 葫芦岛">
+        <option value="吉林省 长春"><option value="吉林省 吉林"><option value="吉林省 四平"><option value="吉林省 辽源"><option value="吉林省 通化"><option value="吉林省 白山"><option value="吉林省 松原"><option value="吉林省 白城"><option value="吉林省 延边">
+        <option value="黑龙江省 哈尔滨"><option value="黑龙江省 齐齐哈尔"><option value="黑龙江省 鸡西"><option value="黑龙江省 鹤岗"><option value="黑龙江省 双鸭山"><option value="黑龙江省 大庆"><option value="黑龙江省 伊春"><option value="黑龙江省 佳木斯"><option value="黑龙江省 七台河"><option value="黑龙江省 牡丹江"><option value="黑龙江省 黑河"><option value="黑龙江省 绥化">
+        <option value="江苏省 南京"><option value="江苏省 无锡"><option value="江苏省 徐州"><option value="江苏省 常州"><option value="江苏省 苏州"><option value="江苏省 南通"><option value="江苏省 连云港"><option value="江苏省 淮安"><option value="江苏省 盐城"><option value="江苏省 扬州"><option value="江苏省 镇江"><option value="江苏省 泰州"><option value="江苏省 宿迁">
+        <option value="浙江省 杭州"><option value="浙江省 宁波"><option value="浙江省 温州"><option value="浙江省 嘉兴"><option value="浙江省 湖州"><option value="浙江省 绍兴"><option value="浙江省 金华"><option value="浙江省 衢州"><option value="浙江省 舟山"><option value="浙江省 台州"><option value="浙江省 丽水">
+        <option value="安徽省 合肥"><option value="安徽省 芜湖"><option value="安徽省 蚌埠"><option value="安徽省 淮南"><option value="安徽省 马鞍山"><option value="安徽省 淮北"><option value="安徽省 铜陵"><option value="安徽省 安庆"><option value="安徽省 黄山"><option value="安徽省 滁州"><option value="安徽省 阜阳"><option value="安徽省 宿州"><option value="安徽省 六安"><option value="安徽省 亳州"><option value="安徽省 池州"><option value="安徽省 宣城">
+        <option value="福建省 福州"><option value="福建省 厦门"><option value="福建省 莆田"><option value="福建省 三明"><option value="福建省 泉州"><option value="福建省 漳州"><option value="福建省 南平"><option value="福建省 龙岩"><option value="福建省 宁德">
+        <option value="江西省 南昌"><option value="江西省 景德镇"><option value="江西省 萍乡"><option value="江西省 九江"><option value="江西省 新余"><option value="江西省 鹰潭"><option value="江西省 赣州"><option value="江西省 吉安"><option value="江西省 宜春"><option value="江西省 抚州"><option value="江西省 上饶">
+        <option value="山东省 济南"><option value="山东省 青岛"><option value="山东省 淄博"><option value="山东省 枣庄"><option value="山东省 东营"><option value="山东省 烟台"><option value="山东省 潍坊"><option value="山东省 济宁"><option value="山东省 泰安"><option value="山东省 威海"><option value="山东省 日照"><option value="山东省 临沂"><option value="山东省 德州"><option value="山东省 聊城"><option value="山东省 滨州"><option value="山东省 菏泽">
+        <option value="河南省 郑州"><option value="河南省 开封"><option value="河南省 洛阳"><option value="河南省 平顶山"><option value="河南省 安阳"><option value="河南省 鹤壁"><option value="河南省 新乡"><option value="河南省 焦作"><option value="河南省 濮阳"><option value="河南省 许昌"><option value="河南省 漯河"><option value="河南省 三门峡"><option value="河南省 南阳"><option value="河南省 商丘"><option value="河南省 信阳"><option value="河南省 周口"><option value="河南省 驻马店">
+        <option value="湖北省 武汉"><option value="湖北省 黄石"><option value="湖北省 十堰"><option value="湖北省 宜昌"><option value="湖北省 襄阳"><option value="湖北省 鄂州"><option value="湖北省 荆门"><option value="湖北省 孝感"><option value="湖北省 荆州"><option value="湖北省 黄冈"><option value="湖北省 咸宁"><option value="湖北省 随州"><option value="湖北省 恩施">
+        <option value="湖南省 长沙"><option value="湖南省 株洲"><option value="湖南省 湘潭"><option value="湖南省 衡阳"><option value="湖南省 邵阳"><option value="湖南省 岳阳"><option value="湖南省 常德"><option value="湖南省 张家界"><option value="湖南省 益阳"><option value="湖南省 郴州"><option value="湖南省 永州"><option value="湖南省 怀化"><option value="湖南省 娄底"><option value="湖南省 湘西">
+        <option value="广东省 广州"><option value="广东省 韶关"><option value="广东省 深圳"><option value="广东省 珠海"><option value="广东省 汕头"><option value="广东省 佛山"><option value="广东省 江门"><option value="广东省 湛江"><option value="广东省 茂名"><option value="广东省 肇庆"><option value="广东省 惠州"><option value="广东省 梅州"><option value="广东省 汕尾"><option value="广东省 河源"><option value="广东省 阳江"><option value="广东省 清远"><option value="广东省 东莞"><option value="广东省 中山"><option value="广东省 潮州"><option value="广东省 揭阳"><option value="广东省 云浮">
+        <option value="广西 南宁"><option value="广西 柳州"><option value="广西 桂林"><option value="广西 梧州"><option value="广西 北海"><option value="广西 防城港"><option value="广西 钦州"><option value="广西 贵港"><option value="广西 玉林"><option value="广西 百色"><option value="广西 贺州"><option value="广西 河池"><option value="广西 来宾"><option value="广西 崇左">
+        <option value="海南省 海口"><option value="海南省 三亚"><option value="海南省 儋州">
+        <option value="四川省 成都"><option value="四川省 自贡"><option value="四川省 攀枝花"><option value="四川省 泸州"><option value="四川省 德阳"><option value="四川省 绵阳"><option value="四川省 广元"><option value="四川省 遂宁"><option value="四川省 内江"><option value="四川省 乐山"><option value="四川省 南充"><option value="四川省 眉山"><option value="四川省 宜宾"><option value="四川省 广安"><option value="四川省 达州"><option value="四川省 雅安"><option value="四川省 巴中"><option value="四川省 资阳">
+        <option value="贵州省 贵阳"><option value="贵州省 六盘水"><option value="贵州省 遵义"><option value="贵州省 安顺"><option value="贵州省 毕节"><option value="贵州省 铜仁">
+        <option value="云南省 昆明"><option value="云南省 曲靖"><option value="云南省 玉溪"><option value="云南省 保山"><option value="云南省 昭通"><option value="云南省 丽江"><option value="云南省 普洱"><option value="云南省 临沧"><option value="云南省 大理"><option value="云南省 西双版纳">
+        <option value="西藏 拉萨"><option value="西藏 日喀则"><option value="西藏 昌都"><option value="西藏 林芝"><option value="西藏 山南"><option value="西藏 那曲">
+        <option value="陕西省 西安"><option value="陕西省 铜川"><option value="陕西省 宝鸡"><option value="陕西省 咸阳"><option value="陕西省 渭南"><option value="陕西省 延安"><option value="陕西省 汉中"><option value="陕西省 榆林"><option value="陕西省 安康"><option value="陕西省 商洛">
+        <option value="甘肃省 兰州"><option value="甘肃省 嘉峪关"><option value="甘肃省 金昌"><option value="甘肃省 白银"><option value="甘肃省 天水"><option value="甘肃省 武威"><option value="甘肃省 张掖"><option value="甘肃省 平凉"><option value="甘肃省 酒泉"><option value="甘肃省 庆阳"><option value="甘肃省 定西"><option value="甘肃省 陇南">
+        <option value="青海省 西宁"><option value="青海省 海东">
+        <option value="宁夏 银川"><option value="宁夏 石嘴山"><option value="宁夏 吴忠"><option value="宁夏 固原"><option value="宁夏 中卫">
+        <option value="新疆 乌鲁木齐"><option value="新疆 克拉玛依"><option value="新疆 吐鲁番"><option value="新疆 哈密"><option value="新疆 昌吉"><option value="新疆 巴音郭楞"><option value="新疆 阿克苏"><option value="新疆 喀什"><option value="新疆 和田"><option value="新疆 伊犁"><option value="新疆 石河子">
+        <option value="香港"><option value="澳门"><option value="台湾 台北"><option value="台湾 高雄"><option value="台湾 台中"><option value="台湾 台南">
+      </datalist>
+    </div>
+
+    <div class="divider-wrap"><div class="divider"></div></div>
+
+    <div class="quiz-toggle" onclick="toggleQuiz()">
+      <text class="setup-title">体质问卷（选填，帮你更准）</text>
+      <text class="quiz-arrow" id="quizArrow">▸</text>
+    </div>
+    <div class="quiz-section" id="quizSection">
+      <text class="setup-hint">每组3-4题，滑动打分 1=很不符合 5=很符合</text>
+      <div id="quizContent"></div>
+    </div>
+
+    <button class="save-btn" onclick="saveProfile()">保存</button>
+    <text class="saved-msg" id="savedMsg" style="display:none">已保存 ✓</text>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

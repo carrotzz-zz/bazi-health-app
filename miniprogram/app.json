@@ -1,0 +1,15 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/setup/setup"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#f5f0e8",
+    "navigationBarTitleText": "每日情绪",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#fdfaf3"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

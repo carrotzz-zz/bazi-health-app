@@ -1,0 +1,66 @@
+<view class="page">
+  <view class="section">
+    <text class="section-title">出生信息</text>
+
+    <view class="form-row">
+      <text class="form-label">出生日期</text>
+      <picker mode="date" value="{{birthDate}}" start="1900-01-01" end="{{today}}" bindchange="onDateChange">
+        <view class="picker-val">{{birthDate || '请选择'}}</view>
+      </picker>
+    </view>
+
+    <view class="form-row">
+      <text class="form-label">出生时间</text>
+      <picker mode="time" value="{{birthTime}}" bindchange="onTimeChange">
+        <view class="picker-val">{{birthTime || '请选择'}}</view>
+      </picker>
+    </view>
+
+    <view class="form-row">
+      <text class="form-label">性别</text>
+      <view class="gender-row">
+        <view class="gender-btn {{gender==='男'?'active':''}}" bindtap="setGender" data-v="男">男</view>
+        <view class="gender-btn {{gender==='女'?'active':''}}" bindtap="setGender" data-v="女">女</view>
+      </view>
+    </view>
+
+    <view class="form-row">
+      <text class="form-label">城市位置</text>
+      <picker mode="region" value="{{region}}" bindchange="onRegionChange">
+        <view class="picker-val">{{regionName || '请选择'}}</view>
+      </picker>
+    </view>
+    <text class="location-status {{locOk?'ok':''}}" wx:if="{{locationStatus}}">{{locationStatus}}</text>
+  </view>
+
+  <!-- 分隔 -->
+  <view class="divider-wrap"><view class="divider"></view></view>
+
+  <!-- 体质问卷（可选） -->
+  <view class="quiz-toggle" bindtap="toggleQuiz">
+    <text class="section-title">体质问卷（选填，帮你更准）</text>
+    <text class="toggle-arrow">{{showQuiz ? '▾' : '▸'}}</text>
+  </view>
+  <view class="section" wx:if="{{showQuiz}}">
+    <text class="section-hint">每组3-4题，滑动打分 1=很不符合 5=很符合</text>
+
+    <view class="quiz" wx:for="{{groups}}" wx:key="key" wx:for-item="g">
+      <view class="group-head">
+        <text>{{g.label}}</text>
+        <text class="group-status status-{{g.status}}">{{g.statusText}}</text>
+      </view>
+      <view class="question" wx:for="{{g.questions}}" wx:for-item="q" wx:key="key">
+        <text class="q-text">{{q.text}}</text>
+        <view class="slider-row">
+          <text>1</text>
+          <slider min="1" max="5" value="{{q.score}}" block-size="18" bindchange="onSlide" data-group="{{g.key}}" data-qkey="{{q.key}}" />
+          <text class="slider-val">{{q.score}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 保存 -->
+  <button class="save-btn" bindtap="onSave">保存</button>
+  <text class="saved-msg" wx:if="{{saved}}">已保存 ✓</text>
+</view>

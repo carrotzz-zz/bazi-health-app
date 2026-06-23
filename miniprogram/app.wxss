@@ -1,0 +1,9 @@
+/* === 八字情绪 · 全局样式 === */
+/* Palette: warm off-white base, single gold-brown accent, soft contrast */
+
+page {
+  background-color: #F7F4EE;
+  font-family: -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  color: #2D2420;
+  -webkit-font-smoothing: antialiased;
+}

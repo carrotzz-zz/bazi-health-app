@@ -1,0 +1,6 @@
+{
+  "name": "emotionEngine",
+  "version": "1.0.0",
+  "description": "七层情绪规则引擎",
+  "main": "index.js"
+}

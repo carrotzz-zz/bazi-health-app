@@ -1,0 +1,6 @@
+{
+  "name": "weatherFetch",
+  "version": "1.0.0",
+  "description": "Open-Meteo 天气获取",
+  "main": "index.js"
+}

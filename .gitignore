@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 微信开发者工具
+project.private.config.json
+
+# 日志
+*.log
+logs/
+
+# 环境变量
+.env
+.env.local
+
+# 云函数本地调试缓存
+.cloudbase/

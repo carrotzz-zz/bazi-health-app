@@ -1,0 +1,6 @@
+{
+  "name": "dailyCard",
+  "version": "1.0.0",
+  "description": "每日卡片组装 · 天气+情绪",
+  "main": "index.js"
+}
