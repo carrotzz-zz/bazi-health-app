@@ -4,6 +4,22 @@
 exports.main = async (event, context) => {
   const { lat, lon } = event;
 
+  // 输入校验：lat/lon 必须是合法数值且在有效范围内
+  if (typeof lat !== 'number' || typeof lon !== 'number' ||
+      isNaN(lat) || isNaN(lon) ||
+      lat < -90 || lat > 90 || lon < -180 || lon > 180) {
+    return {
+      weather: '多云',
+      emoji: '🌤',
+      maxTemp: 25,
+      minTemp: 18,
+      precip: 0,
+      summary: '🌤 多云 18°~25°C',
+      _fallback: true,
+      error: 'invalid coordinates',
+    };
+  }
+
   try {
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,weathercode,precipitation_sum&timezone=Asia/Shanghai&forecast_days=1`;
     const res = await fetch(url);
