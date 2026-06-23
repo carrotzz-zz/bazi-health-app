@@ -1,0 +1,6 @@
+{
+  "name": "dietRecommend",
+  "version": "1.0.0",
+  "description": "药膳推荐云函数 - 313道药膳 × 多维打分推荐",
+  "main": "index.js"
+}

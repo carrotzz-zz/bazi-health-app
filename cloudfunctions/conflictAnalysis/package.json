@@ -1,0 +1,6 @@
+{
+  "name": "conflictAnalysis",
+  "version": "1.0.0",
+  "description": "水土不服冲突分析云函数 - 气候迁移/体质环境/天气偏差",
+  "main": "index.js"
+}

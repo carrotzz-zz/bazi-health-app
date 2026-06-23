@@ -1,0 +1,6 @@
+{
+  "name": "constitution",
+  "version": "1.0.0",
+  "description": "中医体质测评云函数 - 9种体质28题评分",
+  "main": "index.js"
+}
